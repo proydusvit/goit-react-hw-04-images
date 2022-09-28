@@ -1,7 +1,7 @@
 import  { Component } from "react";
 import style from "components/Modal/modal.module.css"
 
-    const modalRoot = document.querySelector('#modal-root');
+    // const modalRoot = document.querySelector('#modal-root');
 class Modal extends Component {
 
  componentDidMount() {
