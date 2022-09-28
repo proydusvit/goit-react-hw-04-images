@@ -1,5 +1,6 @@
 import  { Component } from "react";
 import style from "components/Modal/modal.module.css"
+
     const modalRoot = document.querySelector('#modal-root');
 class Modal extends Component {
 
@@ -30,7 +31,7 @@ class Modal extends Component {
   <div className={style.Modal}>
 {this.props.children}
   </div>
-</div>
+          </div>
     )
 
 }

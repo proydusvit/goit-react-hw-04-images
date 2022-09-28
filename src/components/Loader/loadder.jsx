@@ -1,4 +1,5 @@
 import style from 'components/Loader/loader.module.css'
+import PropTypes from "prop-types";
 const Loader = ({ click }) => {
   return (
    
@@ -6,4 +7,8 @@ const Loader = ({ click }) => {
 
   )
 }
- export default Loader
+export default Loader
+ 
+Loader.propTypes = {
+  click:PropTypes.func,
+}
