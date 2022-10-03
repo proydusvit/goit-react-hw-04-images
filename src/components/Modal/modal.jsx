@@ -1,40 +1,39 @@
-import  { Component } from "react";
+
 import style from "components/Modal/modal.module.css"
+import { useEffect } from "react";
+    const modalRoot = document.querySelector('#modal-root');
+function Modal({ onClick, path }) {
 
-    // const modalRoot = document.querySelector('#modal-root');
-class Modal extends Component {
 
- componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown );
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+ 
+    
+    return () => { window.removeEventListener('keydown', handleKeyDown) };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown )
-  }
+  })
 
-  handleKeyDown = e => {     
+ const handleKeyDown = e => {     
       if (e.code === 'Escape') {
-        this.props.onClick();
+        onClick();
       }
     }
 
-  handleBackdropClick = e => {
+ const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      this.props.onClick();
+      onClick();
     }
   }
 
-  render() {
-      const { handleBackdropClick } = this;
+ 
+   
         return (
             <div className={style.Overlay} onClick={handleBackdropClick}>
   <div className={style.Modal}>
-{this.props.children}
+<img src={path} alt="Big img" />
   </div>
           </div>
     )
-
-}
 
 }
 

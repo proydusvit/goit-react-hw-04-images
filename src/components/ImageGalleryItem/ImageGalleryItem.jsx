@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+
 import style from "components/ImageGalleryItem/imgIt.module.css"
 import PropTypes from "prop-types";
 
- class ImageGalleryItem extends Component {
+function ImageGalleryItem({ img , id, onClick, imgLarge}) {
 
-      clckHendler = () => {
-        this.props.onClick(this.props.imgLarge);
+     const clckHendler = () => {
+        onClick(imgLarge);
     }
-
-    render() {
-        const { img , id} = this.props;
-        const { clckHendler } = this;
+ 
         return (
 
             <li key={id}
@@ -19,7 +16,7 @@ import PropTypes from "prop-types";
             </li>
 
         )
-    }
+    
 }
 
 export default ImageGalleryItem;

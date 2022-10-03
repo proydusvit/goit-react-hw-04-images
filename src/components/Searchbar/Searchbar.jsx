@@ -1,40 +1,27 @@
 import style from 'components/Searchbar/search.module.css'
-import { Component } from 'react';
+
 import PropTypes from "prop-types";
+import { useState } from 'react';
+function Searchbar({ onSearch })  {
+   
+  const [search, setSearch] = useState(" ")
 
-class Searchbar extends Component  {
-   state = {
-      search: '',
-      
+
+ const handleChange = (e) => {
+      setSearch(e.currentTarget.value.toLowerCase());
   }
 
-     handleChange = (e) => {
-       this.setState({ search: e.currentTarget.value.toLowerCase() });
-  }
-
-  handleSubmit = (e) => {
+ const handleSubmit = (e) => {
     e.preventDefault();
-    if (this.state.search.trim() === "") {
+    if (search.trim() === "") {
     
       alert("Поле пошуку пусте");
       return;
     }
-    this.props.onSearch(this.state.search.trim());
-    this.reset();
+    onSearch(search.trim());
+   setSearch(" ")
   }
-  
-  reset() {
-    this.setState({
-      search: '', 
-    })
-  }
-
-
-  render()
-  {
     
-    const { search } = this.state;
-    const { handleSubmit, handleChange } = this;
     return (
       <header className={style.Searchbar}>
         <form className={style.SearchForm} onSubmit={handleSubmit}>
@@ -56,7 +43,7 @@ class Searchbar extends Component  {
         </form>
       </header>
     )
-  }
+  
 }
 
 export default Searchbar;

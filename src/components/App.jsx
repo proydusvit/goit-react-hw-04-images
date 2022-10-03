@@ -1,88 +1,69 @@
-import { Component } from "react";
+
 import Searchbar from "./Searchbar/Searchbar";
 import { Audio } from 'react-loader-spinner';
 import ImageGallery from "./ImageGallery/ImageGallery";
 import Loader from "./Loader/loadder";
 import { searchPixabayAPI } from "./Fetch/Fetch";
 import Modal from "./Modal/modal";
+import { useState, useEffect } from "react";
 
-class App extends Component {
-  
-  state = {
-    bigImagePath: "",
-    loader: false,
-    page: 1, 
-    hits: [],
-    error: null,
-    search: "",
-    modal: false,
-  }
-  
-
-  componentDidUpdate(_, prevState) {
-  const { search, page } = this.state;
-    if ((search && prevState.search !== search) || page > prevState.page) {
-      this.fetchImages(search, page);
-    }
-  }
+function App()  {
+  const [bigImagePath, setbigImagePath] = useState("");
+  const [loader, setLoader] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hits, setHits] = useState([]);
+  const [error, setError] = useState(null); 
+  const [search, setSearch] = useState(""); 
  
-  onSearch = search => {
-    this.setState({ 
-       hits: [],
-      search,
-      page: 1,
-    })
-  } 
-
-    async fetchImages() {
-    const { search, page } = this.state;
-    this.setState({
-      loader: true,
-    });
-      
+ 
+  useEffect(() => {
+ const fetchImages = async () =>{
+   
+   setLoader(true);
+   
       try {
         const data = await searchPixabayAPI(search, page);
-        this.setState(({ hits }) => {
-          return {
-            hits: [...hits, ...data.hits]
-          }
+       setHits((image) => {
+         return  [...image, ...data.hits]
+        
         })
       } catch (error) {
-        this.setState({
-        error
-      })
+        setError(error)
       }
-      finally  {this.setState({
-        loader:false
-      })
+      finally {
+        setLoader(false);
       }
   }
+
+    if (search) {
+       fetchImages();
+    }
+  },[page,search])
+
+
+ const onSearch = search => {
   
-  loadMore = () => {
-    this.setState(({page})=>{
-    return {
-      page:page+1
-   }})
-  }
-     toggleModal = (path) => {
-    this.setState({
-      bigImagePath: path,
-    })
+   setHits([]);
+   setSearch(search);
+      setPage(1)
+  } 
+
+  
+ const loadMore = () => {
+    setPage((prevPage) => prevPage + 1)
+ }
+  
+  const toggleModal = (path) => {
+    setbigImagePath(path)
   }
  
  
-  render() {
-    const { loader, hits, error,bigImagePath} = this.state
-    const { onSearch, loadMore, toggleModal} = this
     return (
       <div>
         <Searchbar onSearch={onSearch} />
-         {bigImagePath && (<Modal onClick={toggleModal} path={bigImagePath}>
-          <img src={bigImagePath} alt="" />
-        </Modal>)}
+        {bigImagePath && (<Modal onClick={toggleModal} path={bigImagePath}> </Modal>)}
         {error && <p>!!!</p>}
-       
-        <ImageGallery image={hits} toggleModal={toggleModal} />
+  <ImageGallery image={hits} toggleModal={toggleModal} />
          {loader && <Audio
   height="80"
   width="80"
@@ -94,7 +75,7 @@ class App extends Component {
         {hits.length > 0 && <Loader click={loadMore} />}
       </div>
     );
-  }
+  
 };
   
 export default App;
