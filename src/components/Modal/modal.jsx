@@ -1,7 +1,7 @@
 
 import style from "components/Modal/modal.module.css"
 import { useEffect } from "react";
-    const modalRoot = document.querySelector('#modal-root');
+ const modalRoot = document.querySelector('#modal-root');
 function Modal({ onClick, path }) {
 
 
@@ -25,9 +25,7 @@ function Modal({ onClick, path }) {
     }
   }
 
- 
-   
-        return (
+   return (
             <div className={style.Overlay} onClick={handleBackdropClick}>
   <div className={style.Modal}>
 <img src={path} alt="Big img" />
